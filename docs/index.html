@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zudio Sales Analytics | Janhavi Tayade</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo">ZUDIO<span>.analytics</span></div>
+  <div class="nav-links">
+    <a href="#overview">Overview</a>
+    <a href="#eda">EDA</a>
+    <a href="#models">Models</a>
+    <a href="#predictor">Predictor</a>
+    <a href="https://github.com/janhavitayade/zudio-sales-analytics" target="_blank">GitHub ↗</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <p class="eyebrow">RETAIL DATA SCIENCE PROJECT</p>
+  <h1>Sales Performance Analysis &amp; Prediction<br>for <span class="highlight">Zudio Retail Stores</span></h1>
+  <p class="subtitle">Predicting sales profit across 7,899 transactions using CatBoost, XGBoost & LightGBM — 0.874 cross-validated R².</p>
+  <div class="hero-stats">
+    <div class="stat"><h2 id="stat-rows">0</h2><p>Transactions Analyzed</p></div>
+    <div class="stat"><h2 id="stat-cities">0</h2><p>Cities Covered</p></div>
+    <div class="stat"><h2 id="stat-r2">0.000</h2><p>Best CV R² Score</p></div>
+    <div class="stat"><h2 id="stat-models">0</h2><p>ML Models Compared</p></div>
+  </div>
+</header>
+
+<section id="overview" class="section">
+  <h2 class="section-title">Project Overview</h2>
+  <div class="card-grid">
+    <div class="glass-card">
+      <h3>🎯 Objective</h3>
+      <p>Analyze store & order-level attributes to identify sales trends and predict future sales profit, aiding inventory planning and regional strategy.</p>
+    </div>
+    <div class="glass-card">
+      <h3>🧹 Preprocessing</h3>
+      <p>Mode imputation, IQR-based outlier removal (29 outliers in Sales Profit), and corrupt date handling on a 28-column raw dataset.</p>
+    </div>
+    <div class="glass-card">
+      <h3>⚙️ Feature Engineering</h3>
+      <p>Store Age, Order Weekday, Profit per Item, Target/Label-Count Encoding, and a custom Statistical Polynomial Aggregate (SPA) feature.</p>
+    </div>
+    <div class="glass-card">
+      <h3>🏆 Best Model</h3>
+      <p>CatBoost — Avg. CV R² of <strong>0.8742</strong>, with converged training/validation learning curves (minimal overfitting).</p>
+    </div>
+  </div>
+</section>
+
+<section id="eda" class="section alt">
+  <h2 class="section-title">Exploratory Data Analysis</h2>
+  <p class="section-sub">Univariate, bivariate & multivariate insights from the dataset.</p>
+  <div class="gallery">
+    <figure><img src="assets/images/fig_clothing_type_freq.png" alt="Clothing type frequency" loading="lazy"><figcaption>Sales frequency by clothing type — evenly distributed inventory</figcaption></figure>
+    <figure><img src="assets/images/fig_category_freq.png" alt="Category frequency" loading="lazy"><figcaption>Kids' apparel leads transaction volume</figcaption></figure>
+    <figure><img src="assets/images/fig_sales_distribution.png" alt="Sales distribution" loading="lazy"><figcaption>Right-skewed sales distribution — small purchases dominate</figcaption></figure>
+    <figure><img src="assets/images/fig_city_avg_profit.png" alt="Average profit by city" loading="lazy"><figcaption>Kolhapur, Jalna & Agra lead average sales profit</figcaption></figure>
+    <figure><img src="assets/images/fig_quantity_vs_profit.png" alt="Quantity vs profit" loading="lazy"><figcaption>Positive relationship between quantity and sales profit</figcaption></figure>
+    <figure><img src="assets/images/fig_monthly_avg_profit.png" alt="Monthly average profit" loading="lazy"><figcaption>Seasonal dip in December, peaks in Jan/Jul/Sep</figcaption></figure>
+    <figure><img src="assets/images/fig_correlation_heatmap.png" alt="Correlation heatmap" loading="lazy"><figcaption>Strong correlation between Sales, Quantity & Sales_Quantity_SPA</figcaption></figure>
+    <figure><img src="assets/images/fig_city_category_contribution.png" alt="City category contribution" loading="lazy"><figcaption>Category profit contribution varies by region</figcaption></figure>
+  </div>
+</section>
+
+<section id="models" class="section">
+  <h2 class="section-title">Model Comparison</h2>
+  <p class="section-sub">5 regression models evaluated via test R² and 5-fold cross-validation.</p>
+  <div class="chart-wrap">
+    <canvas id="modelChart"></canvas>
+  </div>
+  <div class="gallery">
+    <figure><img src="assets/images/fig_learning_curve_catboost.png" alt="CatBoost learning curve" loading="lazy"><figcaption>CatBoost — best convergence, R² ≈ 0.88</figcaption></figure>
+    <figure><img src="assets/images/fig_learning_curve_linear.png" alt="Linear regression learning curve" loading="lazy"><figcaption>Linear Regression — underfits at R² ≈ 0.805</figcaption></figure>
+  </div>
+</section>
+
+<section id="predictor" class="section alt">
+  <h2 class="section-title">Interactive Profit Estimator</h2>
+  <p class="section-sub">A simplified, client-side estimator inspired by the project's feature-importance findings (Quantity, Profit-per-Item, City). <em>Illustrative only — not the deployed CatBoost model.</em></p>
+  <div class="predictor-card">
+    <div class="predictor-form">
+      <label>Quantity <span id="qtyVal">5</span></label>
+      <input type="range" id="qty" min="1" max="8" value="5">
+
+      <label>Price per Item (₹) <span id="priceVal">1500</span></label>
+      <input type="range" id="price" min="499" max="2999" step="10" value="1500">
+
+      <label>City Tier</label>
+      <select id="cityTier">
+        <option value="1.1">Tier — Kolhapur / Jalna / Agra (high avg. profit)</option>
+        <option value="1.0" selected>Tier — Mumbai / Pune / Delhi (mid avg. profit)</option>
+        <option value="0.9">Tier — Solapur / Kochi (lower avg. profit)</option>
+      </select>
+
+      <label>Clothing Category</label>
+      <select id="category">
+        <option value="1.05">Sweaters / Shirts (higher margin)</option>
+        <option value="1.0" selected>Dresses / Jackets / Tops / Skirts</option>
+        <option value="0.95">Hoodies / Shoes / T-shirts (variable margin)</option>
+      </select>
+
+      <button id="predictBtn">Estimate Sales Profit</button>
+    </div>
+    <div class="predictor-result">
+      <p>Estimated Sales Profit</p>
+      <h1 id="predictedProfit">₹0</h1>
+      <span class="disclaimer">Based on report's R² ≈ 0.87 CatBoost model behavior, approximated client-side</span>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>Built by Janhavi K. Tayade · Sardar Patel Institute of Technology</p>
+  <p><a href="https://github.com/janhavitayade/zudio-sales-analytics" target="_blank">GitHub Repository</a> · <a href="../report/Zudio_Report.pdf" target="_blank">Full Report (PDF)</a></p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
