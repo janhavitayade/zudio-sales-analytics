@@ -3,6 +3,7 @@
 Predicting retail sales profit for Zudio stores across India using EDA and gradient-boosted machine learning models — achieving **0.874 cross-validated R²** with CatBoost.
 
 🔗 **[View Interactive Dashboard](https://janhavitayade.github.io/zudio-sales-analytics/)**
+🏆 **[Kaggle Notebook](https://www.kaggle.com/code/janhavitayade25/zudio-sales-performance-analysis-and-prediction)**
 📓 **[Jupyter Notebook](./notebook/Zudio_Sales_Analysis.ipynb)**
 📄 **[Full Report (PDF)](./report/Zudio_Report.pdf)**
 
