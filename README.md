@@ -80,12 +80,6 @@ zudio-sales-analytics/
 ├── docs/         → Interactive dashboard (GitHub Pages site)
 ```
 
-## 🔮 Future Work
-
-- Expand dataset with seasonal, economic, and competitor-pricing signals
-- Real-time forecasting pipeline on live transaction streams
-- Neural/temporal models for deeper trend capture
-
 ## 👤 Author
 
 **Janhavi K. Tayade**
